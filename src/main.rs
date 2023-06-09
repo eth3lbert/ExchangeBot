@@ -98,6 +98,7 @@ async fn handle_update(client: Client, update: Update, support: lib::Symbols) ->
                             }
                             Some(caps) => {
                                 let amount = &caps["amount"];
+                                // if amount.is_empty() { let amount = "1"; }
                                 let from = &caps["from"];
                                 let target = &caps["target"];
                                 get_exchange(from, target, amount)
@@ -105,7 +106,10 @@ async fn handle_update(client: Client, update: Update, support: lib::Symbols) ->
                                     .map(|r| {
                                         format!(
                                         "`{source}` `{from}` 對 `{target}` 的匯率為 `{amount:.2}` ",
-                                        source = amount.to_uppercase(),
+                                        source = match amount.is_empty() {
+                                                true => "1",
+                                                false => amount
+                                            }
                                         from = from.to_uppercase(),
                                         target = target.to_uppercase(),
                                         amount = r.result
@@ -117,7 +121,10 @@ async fn handle_update(client: Client, update: Update, support: lib::Symbols) ->
                                 "Invalid format, Expected `{Amount?}{From}={Target}`".to_string()
                             }
                         };
-                        let sent = message.reply(InputMessage::markdown("查詢中...")).await.unwrap();
+                        let sent = message
+                            .reply(InputMessage::markdown("查詢中..."))
+                            .await
+                            .unwrap();
                         sent.edit(InputMessage::markdown(text)).await.unwrap();
                     }
                 }
