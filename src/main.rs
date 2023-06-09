@@ -109,7 +109,7 @@ async fn handle_update(client: Client, update: Update, support: lib::Symbols) ->
                                         source = match amount.is_empty() {
                                                 true => "1",
                                                 false => amount
-                                            }
+                                            },
                                         from = from.to_uppercase(),
                                         target = target.to_uppercase(),
                                         amount = r.result
