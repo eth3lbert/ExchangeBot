@@ -63,13 +63,13 @@ fn prompt(message: &str) -> Results<String> {
 async fn handle_update(client: Client, update: Update, support: lib::Symbols) -> Result {
     match update {
         Update::NewMessage(message) if message.text().starts_with("/ec") => {
-            message.edit("查詢中").await?;
+            // message.edit("查詢中").await?;
             let split = message.text().split(" ").collect::<Vec<&str>>();
             // let chat = message.chat();
             match split.clone().len() {
                 x => {
                     if x != 2 {
-                        message.edit("指令錯誤").await.unwrap();
+                        message.reply("指令錯誤").await.unwrap();
                         // client.send_message(&chat, "指令錯誤").await.unwrap();
                     } else {
                         static RE: Lazy<Regex> = Lazy::new(|| {
