@@ -62,7 +62,7 @@ fn prompt(message: &str) -> Results<String> {
 
 async fn handle_update(client: Client, update: Update, support: lib::Symbols) -> Result {
     match update {
-        Update::NewMessage(message) if message.outgoing() && message.text().starts_with("/ex") => {
+        Update::NewMessage(message) if message.text().starts_with("/ex") => {
             message.edit("查詢中").await?;
             let split = message.text().split(" ").collect::<Vec<&str>>();
             // let chat = message.chat();
